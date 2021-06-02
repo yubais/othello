@@ -7,8 +7,8 @@ type Position = [number, number]
 
 export class Board {
 	state: StateOfSquare[][]
-	width: number = 12
-	height: number = 12
+	width: number = 8
+	height: number = 8
 	selected: [number, number] = [-1, -1]
 	turn: Color = 'black'
 	get enemy(): Color {
@@ -177,6 +177,17 @@ export class Board {
 
 	pass = () => {
 		this.turn = this.enemy
+	}
+
+	clone = ():Board => {
+		const child = new Board()
+		for(let ix=0; ix<this.width; ix++) {
+			for(let iy=0; iy<this.height; iy++) {
+				child.state[ix][iy] = this.state[ix][iy]
+			}
+		}
+		child.turn = this.turn
+		return child
 	}
 }
 

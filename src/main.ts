@@ -13,7 +13,7 @@ window.onload = () => {
     const board = new Board()
     const view = new View(canvas, board)
     const controller = new Controller(canvas, board)
-    const logic = new Logic(1)
+    const logic = new Logic(2)
     
     const isHumansTurn = ():boolean => {
         return board.turn === 'black' // 暫定的にヒトは黒番で固定
