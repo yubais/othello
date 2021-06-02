@@ -3,6 +3,7 @@ import { View } from "./View"
 import { Controller } from "./Controller"
 
 window.onload = () => {
+    const pass = document.getElementById('pass') as HTMLAnchorElement
     const canvas = document.querySelector('canvas')
     if (!canvas) throw new Error("このブラウザには対応していません。")
     canvas.width = 640
@@ -10,5 +11,5 @@ window.onload = () => {
 
     const board = new Board()
     const draw = new View(canvas, board)
-    const controller = new Controller(canvas, board)
+    const controller = new Controller(canvas, pass, board)
 }

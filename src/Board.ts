@@ -144,7 +144,7 @@ export class Board {
 		return callback
 	}
 
-	replaceState = (pos: position) => {
+	place = (pos: position) => {
 		if (this.isPlaceable(pos) == false) {
 			throw new Error('You cannot place this position.')
 		}
@@ -156,6 +156,10 @@ export class Board {
 				this.reverseLine(pos, dir)
 			}
 		}
+		this.turn = this.enemy
+	}
+
+	pass = () => {
 		this.turn = this.enemy
 	}
 }

@@ -24,6 +24,9 @@ export class View {
         this.ctx = ctx
         this.board = board
         this.draw()
+
+        // model 更新のたびに再描写したいが、うまい方法が思いつかないので暫定的にこうする
+        setInterval(this.draw, 100)
     }
 
     draw = () => {
