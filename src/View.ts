@@ -7,15 +7,15 @@ type color = "black" | "white"
 export class View {
     ctx: CanvasRenderingContext2D
     board: Board
-    width: number
-    height: number
+    width = 640
+    height = 640
     w_grid: number
     h_grid: number
     
     constructor(canvas: HTMLCanvasElement, board: Board) {
         const ctx = canvas.getContext('2d')
-        this.width = canvas.width
-        this.height = canvas.height
+        canvas.width = this.width
+        canvas.height = this.height
         this.w_grid = this.width / board.width
         this.h_grid = this.height / board.height
         if (ctx == null) {
@@ -24,9 +24,6 @@ export class View {
         this.ctx = ctx
         this.board = board
         this.draw()
-
-        // model 更新のたびに再描写したいが、うまい方法が思いつかないので暫定的にこうする
-        setInterval(this.draw, 100)
     }
 
     draw = () => {
@@ -50,7 +47,7 @@ export class View {
 
     drawBlank = (ix: number, iy: number) => {
         this.ctx.fillStyle = 'green'
-        this.ctx.fillRect(ix*this.w_grid, iy*this.h_grid, this.w_grid-1, this.h_grid-1)
+        this.ctx.fillRect(ix*this.w_grid+1, iy*this.h_grid+1, this.w_grid-2, this.h_grid-2)
     }
     
     drawSelected = (ix: number, iy: number) => {

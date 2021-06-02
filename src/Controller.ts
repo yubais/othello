@@ -4,18 +4,17 @@ export class Controller {
     canvas: HTMLCanvasElement
     passElement: HTMLAnchorElement
     board: Board
+    player = 'black'
 
     constructor(canvas: HTMLCanvasElement, pass: HTMLAnchorElement, board: Board) {
         this.canvas = canvas
-        this.canvas.onclick = this.click
-        this.canvas.onmousemove = this.move
-        this.canvas.onmouseout = this.mouseout
         this.board = board
         this.passElement = pass
         this.passElement.onclick = this.pass
     }
 
     click = (ev: MouseEvent) => {
+        // if (this.player !== this.board.turn) return
         const pos = this.getInnerPosition(ev)
         if (this.board.isPlaceable(pos)) {
             this.board.place(pos)
@@ -25,10 +24,11 @@ export class Controller {
     }
 
     move = (ev: MouseEvent) => {
+        // if (this.player !== this.board.turn) return
         this.board.selected = this.getInnerPosition(ev)
     }
 
-    mouseout = () => {
+    mouseout = (ev: MouseEvent) => {
         this.board.selected = [-1, -1]
     }
 
@@ -37,9 +37,9 @@ export class Controller {
     }
 
     getInnerPosition = (ev: MouseEvent): [number, number] => {
-        const offset = this.canvas.getClientRects()[0]
-        const ix = Math.floor((ev.clientX - offset.left) / this.canvas.width  * this.board.width)
-        const iy = Math.floor((ev.clientY - offset.top) / this.canvas.height * this.board.height)
+        const client = this.canvas.getClientRects()[0]
+        const ix = Math.floor((ev.clientX - client.left) / client.width  * this.board.width)
+        const iy = Math.floor((ev.clientY - client.top) / client.height * this.board.height)
         return [ix, iy]
     }
 }
