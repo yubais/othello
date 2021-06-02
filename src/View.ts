@@ -30,10 +30,18 @@ export class View {
     }
 
     draw = () => {
+        // this.ctx.clearRect(0, 0, this.width, this.height)
+
         for (let ix=0; ix<this.board.width; ix++) {
             for (let iy=0; iy<this.board.width; iy++) {    
                 const state = this.board.getState([ix, iy])
-                if (state === 'empty') this.drawBlank(ix, iy)
+                if (state === 'empty') {
+                    if (this.board.selected[0] == ix && this.board.selected[1] == iy) {
+                        this.drawSelected(ix, iy)
+                    } else {
+                        this.drawBlank(ix, iy)
+                    }
+                }
                 if (state === 'black') this.drawPiece(ix, iy, 'black')
                 if (state === 'white') this.drawPiece(ix, iy, 'white')
             }
@@ -43,6 +51,12 @@ export class View {
     drawBlank = (ix: number, iy: number) => {
         this.ctx.fillStyle = 'green'
         this.ctx.fillRect(ix*this.w_grid, iy*this.h_grid, this.w_grid-1, this.h_grid-1)
+    }
+    
+    drawSelected = (ix: number, iy: number) => {
+        this.ctx.globalAlpha = 0.25
+        this.drawPiece(ix, iy, this.board.turn)
+        this.ctx.globalAlpha = 1
     }
 
     drawPiece = (ix: number, iy: number, color: color) => {

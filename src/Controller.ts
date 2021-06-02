@@ -8,6 +8,8 @@ export class Controller {
     constructor(canvas: HTMLCanvasElement, pass: HTMLAnchorElement, board: Board) {
         this.canvas = canvas
         this.canvas.onclick = this.click
+        this.canvas.onmousemove = this.move
+        this.canvas.onmouseout = this.mouseout
         this.board = board
         this.passElement = pass
         this.passElement.onclick = this.pass
@@ -20,6 +22,14 @@ export class Controller {
         } else {
             // 「置けない」のフィードバックは必要か？
         }
+    }
+
+    move = (ev: MouseEvent) => {
+        this.board.selected = this.getInnerPosition(ev)
+    }
+
+    mouseout = () => {
+        this.board.selected = [-1, -1]
     }
 
     pass = (ev: MouseEvent) => {

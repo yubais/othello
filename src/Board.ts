@@ -9,6 +9,7 @@ export class Board {
 	state: stateOfSquare[][]
 	width: number = 8
 	height: number = 8
+	selected: [number, number] = [-1, -1]
 	turn: color = 'black'
 	get enemy(): color {
 		if (this.turn == 'black') return 'white'
@@ -156,7 +157,22 @@ export class Board {
 				this.reverseLine(pos, dir)
 			}
 		}
+		this.checkEnd()
 		this.turn = this.enemy
+	}
+
+	checkEnd = () => {
+		const count = this.count()
+
+		if (count[0] == 0) console.log("白の勝利")
+		if (count[1] == 0) console.log("黒の勝利")
+
+		if (count[0] + count[1] == 64) {
+			if(count[0] > count[1]) console.log("黒の勝利")
+			if(count[0] < count[1]) console.log("白の勝利")
+			if(count[0] == count[1]) console.log("ひきわけ")
+		}
+
 	}
 
 	pass = () => {
