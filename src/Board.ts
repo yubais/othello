@@ -18,7 +18,14 @@ export class Board {
 		else return 'black'
 	}
 
-	constructor() {
+	constructor(width: number, height: number) {
+		// 盤サイズが2以上でなければ勝手に8にする（エラーなど出さん）
+		if (width < 2) width = 8
+		if (height < 2) height = 8
+
+		if (width) this.width = Math.floor(width)
+		if (height) this.height = Math.floor(height)
+
 		this.state = new Array()
 		for (let ix = 0; ix < this.width; ix++) {
 			this.state[ix] = new Array()
@@ -26,6 +33,7 @@ export class Board {
 				this.state[ix].push('empty')
 			}
 		}
+
 		const x_mid = Math.floor(this.width/2)
 		const y_mid = Math.floor(this.height/2)
 
@@ -187,13 +195,13 @@ export class Board {
 
 		return 'inGame'
 	}
-	
+
 	pass = () => {
 		this.turn = this.enemy
 	}
 
 	clone = ():Board => {
-		const child = new Board()
+		const child = new Board(this.width, this.height)
 		for(let ix=0; ix<this.width; ix++) {
 			for(let iy=0; iy<this.height; iy++) {
 				child.state[ix][iy] = this.state[ix][iy]

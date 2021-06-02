@@ -4,9 +4,11 @@ import { Board } from './Board'
 
 type Position = [number, number]
 export class Logic {
-    level: number
+    level: number = 2
+
     constructor(level: number) {
-        this.level = level
+        if (level == 1) this.level = 1
+        if (level == 2) this.level = 2
     }
 
     next = (board: Board): Position => {

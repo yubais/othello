@@ -31,7 +31,7 @@ export class View {
 
     draw = () => {
         for (let ix=0; ix<this.board.width; ix++) {
-            for (let iy=0; iy<this.board.width; iy++) {    
+            for (let iy=0; iy<this.board.height; iy++) {    
                 const state = this.board.getState([ix, iy])
                 if (state === 'empty') {
                     if (this.board.selected[0] == ix && this.board.selected[1] == iy) {
@@ -44,10 +44,12 @@ export class View {
                 if (state === 'white') this.drawPiece(ix, iy, 'white')
             }
         }
-        this.drawStar(2, 2)
-        this.drawStar(2, 6)
-        this.drawStar(6, 2)
-        this.drawStar(6, 6)
+
+        for(let ix=2; ix<this.board.width; ix+=4) {
+            for(let iy=2; iy<this.board.width; iy+=4) {
+                this.drawStar(ix, iy)
+            }
+        }
     }
 
     drawBlank = (ix: number, iy: number) => {

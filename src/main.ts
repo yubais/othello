@@ -3,6 +3,11 @@ import { View } from "./View"
 import { Controller } from "./Controller"
 import { Logic } from "./Logic"
 
+const levelDescription = {
+    1: 'CPU Level 1（無策）: 置ける場所からランダムに選びます。',
+    2: 'CPU Level 2（貪欲）: 一番多く裏返せる場所を選びます。',
+}
+
 const setModalPosition = () => {
     /* modal の位置調整 */
     const canvas = document.querySelector('canvas')
@@ -21,18 +26,40 @@ window.onresize = setModalPosition
 window.onload = () => {
     const canvas = document.querySelector('canvas')
     const pass = document.getElementById('pass') as HTMLAnchorElement
-
     if (!canvas) throw new Error("このブラウザには対応していません。")
 
-    const board = new Board()
+    // URL の読み込み、ただし値は数値のみ
+    const urlParams: {[key: string]: number} = (() => {
+        const callback = {}
+        window.location.search
+            .substr(1)
+            .split('&')
+            .forEach((item) => {
+                const tmp = item.split('=')
+                if (isNaN(tmp[1] as any) === false) {
+                    callback[tmp[0]] = Number(tmp[1])
+                }
+            })
+        return callback
+    })()
+
+    // レベル指定について
+    if ([1, 2].includes(urlParams['l']) === false) {
+        urlParams['l'] = 2
+    }
+
+    const board = new Board(urlParams['w'], urlParams['h'])
     const view = new View(canvas, board)
     const controller = new Controller(canvas, board)
-    const logic = new Logic(2)
+
+    const logic = new Logic(urlParams['l'])
+    document.getElementById('description').textContent = levelDescription[urlParams['l']]
+
     const isHumansTurn = ():boolean => {
         return board.turn === 'black' // 暫定的にヒトは黒番で固定
     }
 
-    setModalPosition()    
+    setModalPosition()
 
     const cpusTurn = () => {
         // わざと一瞬止まる
