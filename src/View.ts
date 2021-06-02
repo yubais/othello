@@ -1,25 +1,40 @@
 /* ボードをHTML上に描写、またクリックイベントを Board に送信 */
 
+import { Board } from './Board'
+
 type color = "black" | "white"
 
-export class Draw {
+export class View {
     ctx: CanvasRenderingContext2D
-    width = 640
-    height = 640
-    w_grid = this.width / 8
-    h_grid = this.height / 8
+    board: Board
+    width: number
+    height: number
+    w_grid: number
+    h_grid: number
     
-    constructor(canvas: HTMLCanvasElement) {
+    constructor(canvas: HTMLCanvasElement, board: Board) {
         const ctx = canvas.getContext('2d')
-        canvas.width = this.width
-        canvas.height = this.height
+        this.width = canvas.width
+        this.height = canvas.height
+        this.w_grid = this.width / board.width
+        this.h_grid = this.height / board.height
         if (ctx == null) {
             throw new Error('canvas context が取得できない')
         }
         this.ctx = ctx
+        this.board = board
+        this.draw()
+    }
 
-        this.drawBlank(0,0)
-        this.drawBlank(0,1)
+    draw = () => {
+        for (let ix=0; ix<this.board.width; ix++) {
+            for (let iy=0; iy<this.board.width; iy++) {    
+                const state = this.board.getState([ix, iy])
+                if (state === 'empty') this.drawBlank(ix, iy)
+                if (state === 'black') this.drawPiece(ix, iy, 'black')
+                if (state === 'white') this.drawPiece(ix, iy, 'white')
+            }
+        }
     }
 
     drawBlank = (ix: number, iy: number) => {

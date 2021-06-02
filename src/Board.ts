@@ -160,6 +160,7 @@ export class Board {
 	}
 }
 
+/*
 const board = new Board()
 board.show()
 
@@ -168,3 +169,4 @@ for (let i=0; i<10; i++) {
 	board.show()
 	console.log(" ")	
 }
+*/
