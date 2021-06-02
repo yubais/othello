@@ -37,8 +37,9 @@ export class Controller {
     }
 
     getInnerPosition = (ev: MouseEvent): [number, number] => {
-        const ix = Math.floor(ev.clientX / this.canvas.width  * this.board.width)
-        const iy = Math.floor(ev.clientY / this.canvas.height * this.board.height)
+        const offset = this.canvas.getClientRects()[0]
+        const ix = Math.floor((ev.clientX - offset.left) / this.canvas.width  * this.board.width)
+        const iy = Math.floor((ev.clientY - offset.top) / this.canvas.height * this.board.height)
         return [ix, iy]
     }
 }

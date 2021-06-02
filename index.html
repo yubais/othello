@@ -4,6 +4,21 @@
 <meta charset='utf-8' />
 <title>オセロ</title>
 <style>
+body {
+	background-color: #223344;
+	margin: 0px 0px;
+	color: #dddddd;
+}
+h1 {
+	margin: 0px;
+	padding: 10px;
+	background-color: #000000;
+	font-weight: normal;
+}
+#container {
+	margin: auto;
+	padding: 10px;
+}
 a {
 	font-weight: bold;
 	text-decoration: none;
@@ -17,9 +32,16 @@ a:hover {
 
 <body>
 <script src='dist/main.js'></script>
-<canvas></canvas>
-<div>
-	<a href=# id='pass'>パス</a>
+<h1>湯葉オセロ</h1>
+<div id='container'>
+	<canvas></canvas>
+	<div>
+		<a href=# id='pass'>パス</a>
+	</div>
+
+	<div id='description'>
+		CPU Level 1: 置ける場所からランダムに選択します。
+	</div>
 </div>
 </body>
 </html>
