@@ -2,15 +2,12 @@ import { Board } from "./Board"
 
 export class Controller {
     canvas: HTMLCanvasElement
-    passElement: HTMLAnchorElement
     board: Board
     player = 'black'
 
-    constructor(canvas: HTMLCanvasElement, pass: HTMLAnchorElement, board: Board) {
+    constructor(canvas: HTMLCanvasElement, board: Board) {
         this.canvas = canvas
         this.board = board
-        this.passElement = pass
-        this.passElement.onclick = this.pass
     }
 
     click = (ev: MouseEvent) => {
@@ -30,10 +27,6 @@ export class Controller {
 
     mouseout = (ev: MouseEvent) => {
         this.board.selected = [-1, -1]
-    }
-
-    pass = (ev: MouseEvent) => {
-        this.board.pass()
     }
 
     getInnerPosition = (ev: MouseEvent): [number, number] => {

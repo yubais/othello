@@ -2,7 +2,7 @@
 
 import { Board } from './Board'
 
-type color = "black" | "white"
+type Color = "black" | "white"
 
 export class View {
     ctx: CanvasRenderingContext2D
@@ -56,7 +56,7 @@ export class View {
         this.ctx.globalAlpha = 1
     }
 
-    drawPiece = (ix: number, iy: number, color: color) => {
+    drawPiece = (ix: number, iy: number, color: Color) => {
         this.drawBlank(ix, iy)
         this.ctx.fillStyle = color
         this.ctx.beginPath()

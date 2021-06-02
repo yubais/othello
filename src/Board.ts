@@ -1,17 +1,17 @@
 /* オセロのルールを管理するクラス。画面描写や戦略思考はしない。 */
 
-type color = 'black' | 'white'
-type stateOfSquare = 'empty' | 'black' | 'white' | 'border'
-type direction = 'left' | 'right' | 'up' | 'down' | 'upleft' | 'upright' | 'downleft' | 'downright' 
-type position = [number, number]
+type Color = 'black' | 'white'
+type StateOfSquare = 'empty' | 'black' | 'white' | 'border'
+type Direction = 'left' | 'right' | 'up' | 'down' | 'upleft' | 'upright' | 'downleft' | 'downright' 
+type Position = [number, number]
 
 export class Board {
-	state: stateOfSquare[][]
-	width: number = 8
-	height: number = 8
+	state: StateOfSquare[][]
+	width: number = 12
+	height: number = 12
 	selected: [number, number] = [-1, -1]
-	turn: color = 'black'
-	get enemy(): color {
+	turn: Color = 'black'
+	get enemy(): Color {
 		if (this.turn == 'black') return 'white'
 		else return 'black'
 	}
@@ -57,15 +57,15 @@ export class Board {
 		}
 	}
 
-	getState = (pos: position): stateOfSquare => {
+	getState = (pos: Position): StateOfSquare => {
 		if ( (pos[0] == -1) || (pos[0] == this.width) || (pos[1] == -1) || (pos[1] == this.height) ) return 'border'
 		return this.state[pos[0]][pos[1]]
 	}
-	setState = (pos: position, state: stateOfSquare) => {
+	setState = (pos: Position, state: StateOfSquare) => {
 		this.state[pos[0]][pos[1]]= state
 	}
 
-	getNextPos = (pos: position, dir: direction): [number, number] => {
+	getNextPos = (pos: Position, dir: Direction): [number, number] => {
 		let jx = pos[0]
 		let jy = pos[1]
 
@@ -92,7 +92,7 @@ export class Board {
 		return [jx, jy]
 	}
 
-	isReversibleLine = (pos: position, dir: direction): boolean => {
+	isReversibleLine = (pos: Position, dir: Direction): boolean => {
 		// ある位置にある色の石を置いたとき、指定方向が反転可能な石列になっているか？
 		const nextPos = this.getNextPos(pos, dir)
 
@@ -115,18 +115,18 @@ export class Board {
 		return false
 	}
 
-	isPlaceable = (pos: position): boolean => {
+	isPlaceable = (pos: Position): boolean => {
 		// そもそも他のコマが置いてあったらダメ
 		if (this.getState(pos) !== 'empty') return false
 
-		const dirs: direction[] = ['left', 'right', 'up', 'down', 'upleft', 'upright', 'downleft', 'downright']
+		const dirs: Direction[] = ['left', 'right', 'up', 'down', 'upleft', 'upright', 'downleft', 'downright']
 		for (let dir of dirs) {
 			if (this.isReversibleLine(pos, dir)) return true // 1方向でも反転可能なら設置可能
 		}
 		return false
 	}
 
-	reverseLine = (pos: position, dir: direction) => {
+	reverseLine = (pos: Position, dir: Direction) => {
 		// 破壊的メソッド
 		const nextPos = this.getNextPos(pos, dir)
 		if (this.getState(nextPos) == this.enemy) {
@@ -135,8 +135,8 @@ export class Board {
 		}
 	}
 
-	getPlacableAll = (): position[] => {
-		let callback: position[] = new Array()
+	getPlacableAll = (): Position[] => {
+		let callback: Position[] = new Array()
 		for (let ix = 0; ix < this.width; ix++) {
 			for (let iy = 0; iy < this.height; iy++) {
 				if (this.isPlaceable([ix, iy])) callback.push([ix, iy])
@@ -145,13 +145,13 @@ export class Board {
 		return callback
 	}
 
-	place = (pos: position) => {
+	place = (pos: Position) => {
 		if (this.isPlaceable(pos) == false) {
 			throw new Error('You cannot place this position.')
 		}
 		this.setState(pos, this.turn)
 
-		const dirs: direction[] = ['left', 'right', 'up', 'down', 'upleft', 'upright', 'downleft', 'downright']
+		const dirs: Direction[] = ['left', 'right', 'up', 'down', 'upleft', 'upright', 'downleft', 'downright']
 		for(const dir of dirs) {
 			if (this.isReversibleLine(pos, dir)) {
 				this.reverseLine(pos, dir)
@@ -167,7 +167,7 @@ export class Board {
 		if (count[0] == 0) console.log("白の勝利")
 		if (count[1] == 0) console.log("黒の勝利")
 
-		if (count[0] + count[1] == 64) {
+		if (count[0] + count[1] == this.width * this.height) {
 			if(count[0] > count[1]) console.log("黒の勝利")
 			if(count[0] < count[1]) console.log("白の勝利")
 			if(count[0] == count[1]) console.log("ひきわけ")
