@@ -21,10 +21,34 @@ h1 {
 	max-width: 680px;
 	padding: 10px;
 }
+
+#modal-wrapper {
+	/* 位置はJSで調整 */
+	display: none;
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+#modal-content {
+	position: absolute;
+	background-color: rgba(32, 32, 32, 0.5);
+	width: 66%;
+	height: 100px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	padding: 30px;
+	font-size: 24px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
 canvas {
 	width: 100%;
 	max-width: 640px;
 }
+
 a {
 	font-weight: bold;
 	text-decoration: none;
@@ -41,12 +65,20 @@ a:hover {
 <h1>湯葉オセロ</h1>
 <div id='container'>
 	<canvas></canvas>
+
+	<div id='modal-wrapper'>
+		<div id='modal-content'>
+
+		</div>
+	</div>
+
 	<div>
 		<a href=# id='pass'>パス</a>
 	</div>
 
 	<div id='description'>
-		CPU Level 1: 置ける場所からランダムに選択します。
+		<div>CPU Level 1（無策）: 置ける場所からランダムに選びます。</div>
+		<div>CPU Level 2（貪欲）: 一番多く裏返せる場所を選びます。</div>
 	</div>
 </div>
 </body>

@@ -1,6 +1,7 @@
 /* オセロのルールを管理するクラス。画面描写や戦略思考はしない。 */
 
 type Color = 'black' | 'white'
+type GameState = 'blackWin' | 'whiteWin' | 'even' | 'inGame'
 type StateOfSquare = 'empty' | 'black' | 'white' | 'border'
 type Direction = 'left' | 'right' | 'up' | 'down' | 'upleft' | 'upright' | 'downleft' | 'downright' 
 type Position = [number, number]
@@ -11,6 +12,7 @@ export class Board {
 	height: number = 8
 	selected: [number, number] = [-1, -1]
 	turn: Color = 'black'
+
 	get enemy(): Color {
 		if (this.turn == 'black') return 'white'
 		else return 'black'
@@ -157,24 +159,35 @@ export class Board {
 				this.reverseLine(pos, dir)
 			}
 		}
-		this.checkEnd()
 		this.turn = this.enemy
 	}
 
-	checkEnd = () => {
+	checkState = (): GameState => {
 		const count = this.count()
 
-		if (count[0] == 0) console.log("白の勝利")
-		if (count[1] == 0) console.log("黒の勝利")
+		if (count[0] == 0) return 'whiteWin'
+		if (count[1] == 0) return 'blackWin'
 
 		if (count[0] + count[1] == this.width * this.height) {
-			if(count[0] > count[1]) console.log("黒の勝利")
-			if(count[0] < count[1]) console.log("白の勝利")
-			if(count[0] == count[1]) console.log("ひきわけ")
+			if (count[0] > count[1]) return 'blackWin'
+			if (count[0] < count[1]) return 'whiteWin'
+			if (count[0] == count[1]) return 'even'
 		}
 
-	}
+		// 両者とも打つ場所がなければゲーム終了
+		if (this.getPlacableAll().length === 0) {
+			const afterPass = this.clone()
+			afterPass.pass()
+			if (afterPass.getPlacableAll().length === 0) {
+				if (count[0] > count[1]) return 'blackWin'
+				if (count[0] < count[1]) return 'whiteWin'
+				if (count[0] == count[1]) return 'even'	
+			}
+		}
 
+		return 'inGame'
+	}
+	
 	pass = () => {
 		this.turn = this.enemy
 	}

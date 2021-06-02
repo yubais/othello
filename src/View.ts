@@ -25,10 +25,11 @@ export class View {
         this.board = board
         this.draw()
     }
+    oppo = (color: Color): Color => {
+        return (color === 'black') ? 'white' : 'black'
+    }
 
     draw = () => {
-        // this.ctx.clearRect(0, 0, this.width, this.height)
-
         for (let ix=0; ix<this.board.width; ix++) {
             for (let iy=0; iy<this.board.width; iy++) {    
                 const state = this.board.getState([ix, iy])
@@ -43,26 +44,72 @@ export class View {
                 if (state === 'white') this.drawPiece(ix, iy, 'white')
             }
         }
+        this.drawStar(2, 2)
+        this.drawStar(2, 6)
+        this.drawStar(6, 2)
+        this.drawStar(6, 6)
     }
 
     drawBlank = (ix: number, iy: number) => {
         this.ctx.fillStyle = 'green'
         this.ctx.fillRect(ix*this.w_grid+1, iy*this.h_grid+1, this.w_grid-2, this.h_grid-2)
     }
+
+    drawStar = (ix: number, iy: number) => {
+        // 指定したマスの左上に黒いぽちをつける
+        this.ctx.fillStyle = '#223344'
+        this.ctx.beginPath()
+        this.ctx.arc(
+            ix * this.w_grid,
+            iy * this.h_grid,
+            Math.min(this.w_grid, this.h_grid) * 0.05,
+            0,
+            2*Math.PI
+        )
+        this.ctx.fill()
+    }
     
     drawSelected = (ix: number, iy: number) => {
+        this.drawBlank(ix, iy)
+
         this.ctx.globalAlpha = 0.25
-        this.drawPiece(ix, iy, this.board.turn)
+        this.ctx.fillStyle = this.board.turn
+
+        this.ctx.beginPath()
+
+        this.ctx.arc(
+            (ix + 0.5) * this.w_grid,
+            (iy + 0.5) * this.h_grid,
+            Math.min(this.w_grid, this.h_grid) * 0.35,
+            0,
+            2*Math.PI
+        )
+        this.ctx.fill()
+
         this.ctx.globalAlpha = 1
     }
 
     drawPiece = (ix: number, iy: number, color: Color) => {
         this.drawBlank(ix, iy)
-        this.ctx.fillStyle = color
+        
+        this.ctx.fillStyle = this.oppo(color)
+        this.ctx.globalAlpha = 0.5
         this.ctx.beginPath()
         this.ctx.arc(
             (ix + 0.5) * this.w_grid,
-            (iy + 0.5) * this.h_grid,
+            (iy + 0.5) * this.h_grid + 1,
+            Math.min(this.w_grid, this.h_grid) * 0.35,
+            0,
+            2*Math.PI
+        )
+        this.ctx.fill()
+
+        this.ctx.fillStyle = color
+        this.ctx.globalAlpha = 1
+        this.ctx.beginPath()
+        this.ctx.arc(
+            (ix + 0.5) * this.w_grid,
+            (iy + 0.5) * this.h_grid - 1,
             Math.min(this.w_grid, this.h_grid) * 0.35,
             0,
             2*Math.PI
