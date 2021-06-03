@@ -6,6 +6,7 @@ import { Logic } from "./Logic"
 const levelDescription = {
     1: 'CPU Level 1（無策）: 置ける場所からランダムに選びます。',
     2: 'CPU Level 2（貪欲）: 一番多く裏返せる場所を選びます。',
+    3: 'CPU Level 3（鳥頭）: 3手先に自色が多くなる手を選びます。',
 }
 
 const setModalPosition = () => {
@@ -44,7 +45,7 @@ window.onload = () => {
     })()
 
     // レベル指定について
-    if ([1, 2].includes(urlParams['l']) === false) {
+    if ([1, 2, 3].includes(urlParams['l']) === false) {
         urlParams['l'] = 2
     }
 
