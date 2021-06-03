@@ -1,0 +1,81 @@
+body {
+	background-color: #223344;
+	margin: 0px 0px;
+	color: #dddddd;
+}
+h1 {
+	margin: 0px;
+	padding: 10px;
+	background-color: #000000;
+	font-weight: normal;
+}
+#container {
+	margin: auto;
+	max-width: 680px;
+	padding: 10px;
+}
+
+#modal-wrapper {
+	/* 位置はJSで調整 */
+	display: none;
+	position: absolute;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+#modal-content {
+	position: absolute;
+	background-color: rgba(32, 32, 32, 0.5);
+	width: 66%;
+	height: 100px;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	padding: 30px;
+	font-size: 24px;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+canvas {
+	width: 100%;
+	max-width: 640px;
+}
+
+#status {
+    /* 幅はJSで調整 */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 10px;
+    box-sizing: border-box;
+}
+#status div {
+    width: 20%;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 24px;
+}
+
+div.button {
+    border: solid 2px green;
+    border-radius: 5px;
+	font-weight: bold;
+	color: #008844;
+    user-select: none;
+}
+
+div.button:hover {
+    cursor: pointer;
+    border: solid 2px lightgreen;
+    color: lightgreen;
+}
+
+#count-black,
+#count-white {
+    font-family: monospace;
+    color: rgba(255, 255, 255, 0.5);
+}

@@ -3,61 +3,8 @@
 <head>
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel='stylesheet' href='./style.css' />
 <title>オセロ</title>
-<style>
-body {
-	background-color: #223344;
-	margin: 0px 0px;
-	color: #dddddd;
-}
-h1 {
-	margin: 0px;
-	padding: 10px;
-	background-color: #000000;
-	font-weight: normal;
-}
-#container {
-	margin: auto;
-	max-width: 680px;
-	padding: 10px;
-}
-
-#modal-wrapper {
-	/* 位置はJSで調整 */
-	display: none;
-	position: absolute;
-	background-color: rgba(0, 0, 0, 0.1);
-}
-
-#modal-content {
-	position: absolute;
-	background-color: rgba(32, 32, 32, 0.5);
-	width: 66%;
-	height: 100px;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	border-radius: 5px;
-	padding: 30px;
-	font-size: 24px;
-	box-sizing: border-box;
-	text-align: center;
-}
-
-canvas {
-	width: 100%;
-	max-width: 640px;
-}
-
-a {
-	font-weight: bold;
-	text-decoration: none;
-	color: #008844;
-}
-a:hover {
-	color: #00bb88;
-}
-</style>
 </head>
 
 <body>
@@ -72,8 +19,20 @@ a:hover {
 		</div>
 	</div>
 
-	<div>
-		<a id='pass'>パス</a>
+	<div id='status'>
+		<div id='pass-box' class='button'>
+			パス
+		</div>
+		<div id='status-black'>
+			<span style='color:black'>●</span> <span id='count-black'></span>
+		</div>
+		<div id='status-white'>
+			<span style='color:white'>●</span> <span id='count-white'></span>
+		</div>
+		<div id='configBox' class='button'>
+			設定
+		</div>
+
 	</div>
 
 	<div id='description'>
