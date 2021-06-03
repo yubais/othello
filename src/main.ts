@@ -31,11 +31,14 @@ const finishGame = (state: string) => {
     const statement = (() => {
         if (state == 'blackWin') return '黒の勝利'
         if (state == 'whiteWin') return '白の勝利'
-        if (state == 'even') return '引き分け'
-        
+        if (state == 'even') return '引き分け'    
     })()
     document.getElementById('modal-content').textContent = statement
     document.getElementById('modal-wrapper').style.display = 'block'
+
+    document.getElementById('pass-box').style.display = 'none'
+    document.getElementById('retry-box').style.display = 'block'
+    document.getElementById('retry-box').onclick = () => { location.reload() }
 }
 
 window.onload = () => {

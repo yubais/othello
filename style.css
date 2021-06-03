@@ -17,7 +17,7 @@ h1 {
 
 #modal-wrapper {
 	/* 位置はJSで調整 */
-	display: none;
+    display: none;
 	position: absolute;
 	background-color: rgba(0, 0, 0, 0.1);
 }
@@ -78,4 +78,39 @@ div.button:hover {
 #count-white {
     font-family: monospace;
     color: rgba(255, 255, 255, 0.5);
+}
+
+#config {
+    margin: auto;
+    max-width: 640px;
+    padding: 15px;
+}
+#config hr {
+    border: none;
+    border-bottom: solid 1px #000000;
+    width: 80%;
+    margin: 10px 0px;
+}
+
+#config input[type=number] {
+    width: 64px;
+}
+
+label.disabled {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+#submit {
+    border-radius: 5px;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 30px;
+    text-align: center;
+    border: solid 2px green;
+    color: #008844;
+}
+#submit:hover {
+    cursor: pointer;
+    border: solid 2px lightgreen;
+    color: lightgreen;
 }

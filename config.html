@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel='stylesheet' href='./style.css' />
+<title>湯葉オセロ　設定</title>
+</head>
+
+<body>
+<h1>湯葉オセロ　設定</h1>
+
+<div id='config'>
+    <label>
+        <input type='radio' name='boardSize' value='w=6&h=6'>
+        6×6盤
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='boardSize' value='w=8&h=8' checked>
+        8×8盤（標準）
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='boardSize' value='w=12&h=12'>
+        12×12盤
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='boardSize' value='custom' id='customBoard'>
+        カスタム盤 
+        <input type=number id='boardW' placeholder='横'> × <input type=number id='boardH' placeholder='縦'>
+    </label>
+
+    <div style='height:50px'></div>
+
+    黒番：
+    <label>
+        <input type='radio' name='blackPlayer' id='blackHuman' checked>
+        人間
+    </label>
+    <label>
+        <input type='radio' name='blackPlayer' id='blackCPU' value='cpu'>
+        CPU
+    </label>
+    <hr>
+    白番：
+    <label>
+        <input type='radio' name='whitePlayer' id='whiteHuman' value='human'>
+        人間
+    </label>
+    <label>
+        <input type='radio' name='whitePlayer' id='whiteCPU' checked>
+        CPU
+    </label>
+
+    <div style='height:50px'></div>
+
+    <label>
+        <input type='radio' name='CPUlevel' value='1' checked>
+        CPU Level 1（無策）置ける場所からランダムに選びます。
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='CPUlevel' value='2'>
+        CPU Level 2（刹那）一番多く裏返せる場所を選びます。
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='CPUlevel' value='3'>
+        CPU Level 3（鳥頭）3手先に自色が多くなる手を選びます。
+    </label>
+    <hr>
+    <label class='disabled'>
+        <input type='radio' name='CPUlevel' disabled>
+        CPU Level 4（遠望）まだ作ってない。
+    </label>
+    <hr>
+    <label class='disabled'>
+        <input type='radio' name='CPUlevel' disabled>
+        CPU Level 5（修道）
+    </label>
+    <hr>
+    <label class='disabled'>
+        <input type='radio' name='CPUlevel' disabled>
+        CPU Level S（接待）
+    </label>
+
+    <div id='submit'>
+        決定
+    </dvi>
+</div>
+
+<script>
+
+const dg = (id) => {
+    return document.getElementById(id)
+}
+
+window.onload = () => {
+    dg('submit').onclick = () => {
+        let optStr = '?'
+
+        // 盤面サイズ
+        for (const el of document.getElementsByName('boardSize')) {
+            if (el.checked) {
+                if (el.value == 'custom') {
+                    const w = Number(dg('boardW').value)
+                    const h = Number(dg('boardH').value)
+                    optStr += 'w=' + w + '&h=' + h
+                } else {
+                    optStr += el.value
+                }
+                break
+            }
+        }
+
+        // 対戦モード
+        if (dg('blackHuman').checked && dg('whiteCPU').checked) optStr += '&p=0'
+        if (dg('blackCPU').checked && dg('whiteHuman').checked) optStr += '&p=1'
+        if (dg('blackHuman').checked && dg('whiteHuman').checked) optStr += '&p=2'
+        if (dg('blackCPU').checked && dg('whiteCPU').checked) optStr += '&p=3'
+
+        // CPU Level
+        for (const el of document.getElementsByName('CPUlevel')) {
+            if (el.checked) {
+                optStr += '&l=' + el.value
+                break
+            }
+        }
+
+        console.log(optStr)
+
+        location.href = './' + optStr
+    }
+
+    dg('boardW').onclick = () => {
+        dg('customBoard').checked = true
+    }
+    dg('boardH').onclick = () => {
+        dg('customBoard').checked = true
+    }
+}
+
+// 意地を張らずに jQuery 使うべきだった
+
+</script>
+
+</body>
+</html>

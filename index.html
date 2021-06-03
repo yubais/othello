@@ -1,27 +1,29 @@
 <html>
-
 <head>
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel='stylesheet' href='./style.css' />
-<title>オセロ</title>
+<title>湯葉オセロ</title>
 </head>
 
 <body>
 <script src='dist/main.js'></script>
 <h1>湯葉オセロ</h1>
+
 <div id='container'>
 	<canvas></canvas>
 
 	<div id='modal-wrapper'>
 		<div id='modal-content'>
-
 		</div>
 	</div>
 
 	<div id='status'>
 		<div id='pass-box' class='button'>
 			パス
+		</div>
+		<div id='retry-box' class='button' style='display: none'>
+			再戦
 		</div>
 		<div id='status-black'>
 			<span style='color:black'>●</span> <span id='count-black'></span>
