@@ -1,4 +1,4 @@
-/* ボードをHTML上に描写、またクリックイベントを Board に送信 */
+/* 盤面の描写 */
 
 import { Board } from './Board'
 

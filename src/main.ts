@@ -2,6 +2,7 @@ import { Board } from "./Board"
 import { View } from "./View"
 import { Controller } from "./Controller"
 import { Logic } from "./Logic"
+import { setConfigUI } from "./config"
 
 const dg = (id) => {
     return document.getElementById(id)
@@ -162,54 +163,6 @@ window.onload = () => {
         cpusTurn()
     }
 
-    dg('configButton').onclick = () => {
-        dg('config').style.display = (dg('config').style.display == 'none') ? 'block' : 'none'
-    }
+    setConfigUI(urlParams)
 
-    dg('submit').onclick = () => {
-        let optStr = '?'
-
-        // 盤面サイズ
-        const radioBoardSize = document.getElementsByName('boardSize') as NodeListOf<HTMLInputElement>
-        radioBoardSize.forEach( (el: HTMLInputElement) => {
-            if (el.checked) {
-                if (el.value == 'custom') {
-                    const w = Number((dg('boardW') as HTMLInputElement).value)
-                    const h = Number((dg('boardH') as HTMLInputElement).value)
-                    optStr += 'w=' + w + '&h=' + h
-                } else {
-                    optStr += el.value
-                }
-            }
-        })
-
-        const blackHuman = dg('blackHuman') as HTMLInputElement
-        const whiteHuman = dg('blackHuman') as HTMLInputElement
-        const blackCPU = dg('blackCPU') as HTMLInputElement
-        const whiteCPU = dg('whiteCPU') as HTMLInputElement
-        
-        // 対戦モード
-        if (blackHuman.checked && whiteCPU.checked) optStr += '&p=0'
-        if (blackCPU.checked && whiteHuman.checked) optStr += '&p=1'
-        if (blackHuman.checked && whiteHuman.checked) optStr += '&p=2'
-        if (blackCPU.checked && whiteCPU.checked) optStr += '&p=3'
-
-        // CPU Level
-        const radioCPUlevel = document.getElementsByName('CPUlevel') as NodeListOf<HTMLInputElement>
-        radioCPUlevel.forEach( (el: HTMLInputElement) => {
-            if (el.checked) {
-                optStr += '&l=' + el.value
-            }
-        })
-        console.log(optStr)
-
-        location.href = './' + optStr
-    }
-
-    dg('boardW').onclick = () => {
-        (dg('customBoard') as HTMLInputElement).checked = true
-    }
-    dg('boardH').onclick = () => {
-        (dg('customBoard') as HTMLInputElement).checked = true
-    }
 }

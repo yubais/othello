@@ -45,17 +45,17 @@
 
 <div id='config' style='display:none'>
     <label>
-        <input type='radio' name='boardSize' value='w=6&h=6'>
+        <input type='radio' name='boardSize' id='smallBoard' value='w=6&h=6'>
         6×6盤
     </label>
     <hr>
     <label>
-        <input type='radio' name='boardSize' value='w=8&h=8' checked>
+        <input type='radio' name='boardSize' id='normalBoard' value='w=8&h=8' checked>
         8×8盤（標準）
     </label>
     <hr>
     <label>
-        <input type='radio' name='boardSize' value='w=12&h=12'>
+        <input type='radio' name='boardSize' id='largeBoard' value='w=12&h=12'>
         12×12盤
     </label>
     <hr>
@@ -121,7 +121,9 @@
 
     <div id='submit'>
         変更
-    </dvi>
+    </div>
+</div>
+
 </div>
 </body>
 </html>
