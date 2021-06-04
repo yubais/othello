@@ -31,7 +31,7 @@
 		<div id='status-white'>
 			<span style='color:white'>●</span> <span id='count-white'></span>
 		</div>
-		<div id='configBox' class='button'>
+		<div id='configButton' class='button'>
 			設定
 		</div>
 
@@ -40,6 +40,88 @@
 	<div id='description'>
 		読込中です……
 	</div>
+</div>
+
+
+<div id='config' style='display:none'>
+    <label>
+        <input type='radio' name='boardSize' value='w=6&h=6'>
+        6×6盤
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='boardSize' value='w=8&h=8' checked>
+        8×8盤（標準）
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='boardSize' value='w=12&h=12'>
+        12×12盤
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='boardSize' value='custom' id='customBoard'>
+        カスタム盤 
+        <input type=number id='boardW' placeholder='横'> × <input type=number id='boardH' placeholder='縦'>
+    </label>
+
+    <div style='height:50px'></div>
+
+    黒番：
+    <label>
+        <input type='radio' name='blackPlayer' id='blackHuman' checked>
+        人間
+    </label>
+    <label>
+        <input type='radio' name='blackPlayer' id='blackCPU' value='cpu'>
+        CPU
+    </label>
+    <hr>
+    白番：
+    <label>
+        <input type='radio' name='whitePlayer' id='whiteHuman' value='human'>
+        人間
+    </label>
+    <label>
+        <input type='radio' name='whitePlayer' id='whiteCPU' checked>
+        CPU
+    </label>
+
+    <div style='height:50px'></div>
+
+    <label>
+        <input type='radio' name='CPUlevel' value='1' checked>
+        CPU Level 1（無策）置ける場所からランダムに選びます。
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='CPUlevel' value='2'>
+        CPU Level 2（刹那）一番多く裏返せる場所を選びます。
+    </label>
+    <hr>
+    <label>
+        <input type='radio' name='CPUlevel' value='3'>
+        CPU Level 3（鳥頭）3手先に自色が多くなる手を選びます。
+    </label>
+    <hr>
+    <label class='disabled'>
+        <input type='radio' name='CPUlevel' disabled>
+        CPU Level 4（遠望）まだ作ってない。
+    </label>
+    <hr>
+    <label class='disabled'>
+        <input type='radio' name='CPUlevel' disabled>
+        CPU Level 5（修道）
+    </label>
+    <hr>
+    <label class='disabled'>
+        <input type='radio' name='CPUlevel' disabled>
+        CPU Level S（接待）
+    </label>
+
+    <div id='submit'>
+        変更
+    </dvi>
 </div>
 </body>
 </html>

@@ -3,6 +3,10 @@ import { View } from "./View"
 import { Controller } from "./Controller"
 import { Logic } from "./Logic"
 
+const dg = (id) => {
+    return document.getElementById(id)
+}
+
 const levelDescription = {
     1: 'CPU Level 1（無策）: 置ける場所からランダムに選びます。',
     2: 'CPU Level 2（刹那）: 一番多く裏返せる場所を選びます。',
@@ -12,7 +16,7 @@ const levelDescription = {
 const setModalPosition = () => {
     /* modal の位置調整 */
     const canvas = document.querySelector('canvas')
-    const modal = document.getElementById('modal-wrapper') as HTMLDivElement
+    const modal = dg('modal-wrapper') as HTMLDivElement
 
     const canvasRect = canvas.getClientRects()[0]
 
@@ -22,7 +26,7 @@ const setModalPosition = () => {
     modal.style.top = canvasRect.top + 'px'
 
     /* status bar の幅調整 */
-    document.getElementById('status').style.width = canvasRect.width + 'px'
+    dg('status').style.width = canvasRect.width + 'px'
 }
 
 window.onresize = setModalPosition
@@ -33,17 +37,17 @@ const finishGame = (state: string) => {
         if (state == 'whiteWin') return '白の勝利'
         if (state == 'even') return '引き分け'    
     })()
-    document.getElementById('modal-content').textContent = statement
-    document.getElementById('modal-wrapper').style.display = 'block'
+    dg('modal-content').textContent = statement
+    dg('modal-wrapper').style.display = 'block'
 
-    document.getElementById('pass-box').style.display = 'none'
-    document.getElementById('retry-box').style.display = 'block'
-    document.getElementById('retry-box').onclick = () => { location.reload() }
+    dg('pass-box').style.display = 'none'
+    dg('retry-box').style.display = 'block'
+    dg('retry-box').onclick = () => { location.reload() }
 }
 
 window.onload = () => {
     const canvas = document.querySelector('canvas')
-    const pass = document.getElementById('pass-box') as HTMLDivElement
+    const pass = dg('pass-box') as HTMLDivElement
     if (!canvas) throw new Error("このブラウザには対応していません。")
 
     // URL の読み込み、ただし値は数値のみ
@@ -74,7 +78,7 @@ window.onload = () => {
     const controller = new Controller(canvas, board)
 
     const logic = new Logic(urlParams['l'])
-    document.getElementById('description').textContent = levelDescription[urlParams['l']]
+    dg('description').textContent = levelDescription[urlParams['l']]
 
     const isHumansTurn = ():boolean => {
         if (playMode === 1) return board.turn === 'white' // p=1 で人が白番
@@ -85,8 +89,8 @@ window.onload = () => {
     }
     const cpuDelay = (urlParams['p'] === 3) ? 10 : 150
 
-    const countBlack = document.getElementById('count-black')
-    const countWhite = document.getElementById('count-white')
+    const countBlack = dg('count-black')
+    const countWhite = dg('count-white')
     const renewCount = () => {
         const count = board.count()
         countBlack.textContent = String(count[0])
@@ -158,4 +162,54 @@ window.onload = () => {
         cpusTurn()
     }
 
+    dg('configButton').onclick = () => {
+        dg('config').style.display = (dg('config').style.display == 'none') ? 'block' : 'none'
+    }
+
+    dg('submit').onclick = () => {
+        let optStr = '?'
+
+        // 盤面サイズ
+        const radioBoardSize = document.getElementsByName('boardSize') as NodeListOf<HTMLInputElement>
+        radioBoardSize.forEach( (el: HTMLInputElement) => {
+            if (el.checked) {
+                if (el.value == 'custom') {
+                    const w = Number((dg('boardW') as HTMLInputElement).value)
+                    const h = Number((dg('boardH') as HTMLInputElement).value)
+                    optStr += 'w=' + w + '&h=' + h
+                } else {
+                    optStr += el.value
+                }
+            }
+        })
+
+        const blackHuman = dg('blackHuman') as HTMLInputElement
+        const whiteHuman = dg('blackHuman') as HTMLInputElement
+        const blackCPU = dg('blackCPU') as HTMLInputElement
+        const whiteCPU = dg('whiteCPU') as HTMLInputElement
+        
+        // 対戦モード
+        if (blackHuman.checked && whiteCPU.checked) optStr += '&p=0'
+        if (blackCPU.checked && whiteHuman.checked) optStr += '&p=1'
+        if (blackHuman.checked && whiteHuman.checked) optStr += '&p=2'
+        if (blackCPU.checked && whiteCPU.checked) optStr += '&p=3'
+
+        // CPU Level
+        const radioCPUlevel = document.getElementsByName('CPUlevel') as NodeListOf<HTMLInputElement>
+        radioCPUlevel.forEach( (el: HTMLInputElement) => {
+            if (el.checked) {
+                optStr += '&l=' + el.value
+            }
+        })
+        console.log(optStr)
+
+        location.href = './' + optStr
+    }
+
+    dg('boardW').onclick = () => {
+        (dg('customBoard') as HTMLInputElement).checked = true
+    }
+    dg('boardH').onclick = () => {
+        (dg('customBoard') as HTMLInputElement).checked = true
+    }
 }
